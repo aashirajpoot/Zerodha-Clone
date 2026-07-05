@@ -17,6 +17,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+  res.status(200).send("Backend is running!");
+});
+
 // ========================= ADD POSITIONS =========================
 
 app.get("/addPositions", async (req, res) => {
@@ -64,6 +68,7 @@ app.get("/allHoldings", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
+
 
 // ========================= GET POSITIONS =========================
 
