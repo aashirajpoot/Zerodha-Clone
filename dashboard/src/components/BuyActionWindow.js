@@ -1,25 +1,35 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
-
 import GeneralContext from "./GeneralContext";
-
 import "./BuyActionWindow.css";
 
 const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
 
-  const handleBuyClick = () => {
-    axios.post("https://zerodha-clone-qwrf.onrender.com/newOrder", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
-    });
+  const handleBuyClick = async () => {
+    try {
+      await axios.post(
+        "https://zerodha-clone-qwrf.onrender.com/newOrder",
+        {
+          name: uid,
+          qty: Number(stockQuantity),
+          price: Number(stockPrice),
+          mode: "BUY",
+        }
+      );
 
-    GeneralContext.closeBuyWindow();
+      alert("Order Placed Successfully!");
+
+      GeneralContext.closeBuyWindow();
+
+      // Reload the dashboard so Holdings fetches fresh data
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to place order.");
+    }
   };
 
   const handleCancelClick = () => {
@@ -36,10 +46,11 @@ const BuyActionWindow = ({ uid }) => {
               type="number"
               name="qty"
               id="qty"
-              onChange={(e) => setStockQuantity(e.target.value)}
               value={stockQuantity}
+              onChange={(e) => setStockQuantity(e.target.value)}
             />
           </fieldset>
+
           <fieldset>
             <legend>Price</legend>
             <input
@@ -47,8 +58,8 @@ const BuyActionWindow = ({ uid }) => {
               name="price"
               id="price"
               step="0.05"
-              onChange={(e) => setStockPrice(e.target.value)}
               value={stockPrice}
+              onChange={(e) => setStockPrice(e.target.value)}
             />
           </fieldset>
         </div>
@@ -56,10 +67,12 @@ const BuyActionWindow = ({ uid }) => {
 
       <div className="buttons">
         <span>Margin required ₹140.65</span>
+
         <div>
           <Link className="btn btn-blue" onClick={handleBuyClick}>
             Buy
           </Link>
+
           <Link to="" className="btn btn-grey" onClick={handleCancelClick}>
             Cancel
           </Link>
