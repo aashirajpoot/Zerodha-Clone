@@ -236,25 +236,25 @@ MongoDB Atlas is used for storing
 
 ## Landing Page
 
-(Add screenshot here)
+landingPage.png
 
 ---
 
 ## Dashboard
 
-(Add screenshot here)
+dashboard.png
 
 ---
 
 ## Holdings
 
-(Add screenshot here)
+holdings.png
 
 ---
 
 ## Buy Order Window
 
-(Add screenshot here)
+buyWindow.png
 
 ---
 
