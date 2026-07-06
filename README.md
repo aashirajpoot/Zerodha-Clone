@@ -295,21 +295,3 @@ This project helped in understanding
 # Author
 
 **Aashi Rajpoot**
-
-B.Tech Computer Science Engineering
-
-Jaypee University of Information Technology
-
-GitHub:
-https://github.com/aashirajpoot
-
-LinkedIn:
-(Add your LinkedIn Profile)
-
----
-
-# License
-
-This project is developed for educational and learning purposes only.
-
-Inspired by the Zerodha trading platform.
