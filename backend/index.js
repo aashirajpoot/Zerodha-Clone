@@ -205,11 +205,40 @@ app.post("/newOrder", async (req, res) => {
     mode: req.body.mode,
   });
 
-  newOrder.save();
+  await newOrder.save();
+
+  // Only add to holdings on a BUY
+  if (req.body.mode === "BUY") {
+    let existingHolding = await HoldingsModel.findOne({ name: req.body.name });
+
+    if (existingHolding) {
+      // Update average price and quantity if already holding this stock
+      const totalQty = existingHolding.qty + Number(req.body.qty);
+      const totalCost =
+        existingHolding.avg * existingHolding.qty +
+        req.body.price * req.body.qty;
+
+      existingHolding.qty = totalQty;
+      existingHolding.avg = totalCost / totalQty;
+      existingHolding.price = req.body.price;
+
+      await existingHolding.save();
+    } else {
+      let newHolding = new HoldingsModel({
+        name: req.body.name,
+        qty: req.body.qty,
+        avg: req.body.price,
+        price: req.body.price,
+        net: "0.00%",
+        day: "0.00%",
+      });
+
+      await newHolding.save();
+    }
+  }
 
   res.send("Order saved!");
 });
-
 app.listen(PORT, () => {
   console.log("App started!");
   mongoose.connect(uri);
